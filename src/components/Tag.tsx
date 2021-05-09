@@ -12,6 +12,7 @@ interface Props {
   remove: (i: number) => void;
   validator?: (val: string) => boolean;
   removeOnBackspace?: boolean;
+  className?: string;
 }
 
 export class Tag extends React.Component<Props> {
@@ -22,13 +23,13 @@ export class Tag extends React.Component<Props> {
 
   render() {
 
-    const { value, index, editable, inputRef, validator, update, readOnly, removeOnBackspace } = this.props;
+    const { value, index, editable, inputRef, validator, update, readOnly, removeOnBackspace, className } = this.props;
 
     const tagRemoveClass = !readOnly ?
       classSelectors.tagRemove : `${classSelectors.tagRemove} ${classSelectors.tagRemoveReadOnly}`;
 
     return (
-      <div className={classSelectors.tag}>
+      <div className={className ? className : classSelectors.tag}>
         {!editable && <div className={classSelectors.tagContent}>{value}</div>}
         {editable && (
           <ContentEditable

@@ -13,6 +13,9 @@ export interface ReactTagInputProps {
   editable?: boolean;
   readOnly?: boolean;
   removeOnBackspace?: boolean;
+  wrapperClassName?: string;
+  tagClassName?: string;
+  inputClassName?: string;
 }
 
 interface State {
@@ -99,7 +102,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { tags, placeholder, maxTags, editable, readOnly, validator, removeOnBackspace } = this.props;
+    const { tags, placeholder, maxTags, editable, readOnly, validator, removeOnBackspace, wrapperClassName, tagClassName, inputClassName } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
@@ -108,7 +111,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const showInput = !readOnly && !maxTagsReached;
 
     return (
-      <div className={classSelectors.wrapper}>
+      <div className={wrapperClassName ? wrapperClassName : classSelectors.wrapper}>
         {tags.map((tag, i) => (
           <Tag
             key={i}
@@ -121,13 +124,14 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
             remove={this.removeTag}
             validator={validator}
             removeOnBackspace={removeOnBackspace}
+            className={tagClassName}
           />
         ))}
         {showInput &&
           <input
             ref={this.inputRef}
             value={input}
-            className={classSelectors.input}
+            className={inputClassName ? inputClassName : classSelectors.input}
             placeholder={placeholder || "Type and press enter"}
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
